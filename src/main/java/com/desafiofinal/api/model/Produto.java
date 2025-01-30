@@ -1,11 +1,13 @@
 package com.desafiofinal.api.model;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
-@EntityScan
+@Entity
+@Table(name = "produtos")
 public class Produto {
     @Id
     @GeneratedValue

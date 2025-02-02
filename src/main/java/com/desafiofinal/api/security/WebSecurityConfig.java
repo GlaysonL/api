@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -21,17 +20,9 @@ public class WebSecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/produtos").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/produtos/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/produtos/nome/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/produtos/contar").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/produtos").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/produtos/**").permitAll()
-                        .requestMatchers("/h2-console/**").permitAll()
-                        .anyRequest().permitAll() // Alterado para permitAll
+                        .anyRequest().permitAll() // Permitir todas as requisições
                 )
-                .headers(headers -> headers.frameOptions().disable()); // Corrigido disable
+                .headers(headers -> headers.frameOptions().disable()); // Desabilitar frameOptions para H2 Console
         return http.build();
     }
 
@@ -46,7 +37,7 @@ public class WebSecurityConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("*")
+                        .allowedOriginPatterns("*")
                         .allowedMethods("*")
                         .allowedHeaders("*")
                         .allowCredentials(true);

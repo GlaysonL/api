@@ -32,6 +32,21 @@ public class ProdutoController {
         return produtoService.buscarPorNome(nome);
     }
 
+    @GetMapping("/buscar/{preco}")
+    public List<Produto> buscarPorPreco(@PathVariable Double preco) {
+        return produtoService.buscarPorPreco(preco);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Produto> atualizar(@PathVariable Long id, @RequestBody Produto produtoAtualizado) {
+        try {
+            Produto produto = produtoService.atualizar(id, produtoAtualizado);
+            return ResponseEntity.ok(produto);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/contar")
     public long contarProdutos() {
         return produtoService.contarProdutos();
